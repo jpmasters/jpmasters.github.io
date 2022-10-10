@@ -32,6 +32,7 @@ baseurl: /
 url: https://jpmasters.github.io
 twitter_username: JonPMasters
 github_username:  jpmasters
+linkedin_username: jpmasters
 
 # Build settings
 theme: minima
