@@ -21,9 +21,13 @@
 title: Jon's Jupyter Notebooks
 email: jonmasters72@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  I've been writing code since the early 80's when I first encountered
+  a ZX81 in a computer lab at school and professionally since leaving
+  university in the mid-90's. Now that I'm an engineering manager, I 
+  don't get to write code at work anymore so I like to keep my hand in 
+  by working on passion projects in my own time. Recently I've been 
+  exploring machine learning and I decided to blog my learning as I go. 
+  This is the result.
 baseurl: /
 url: https://jpmasters.github.io
 twitter_username: JonPMasters
