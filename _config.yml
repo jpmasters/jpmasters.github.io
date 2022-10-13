@@ -40,7 +40,7 @@ plugins:
   - jekyll-feed
 
 # analytics
-google-analytics: G-GPFSP22411
+google_analytics: G-GPFSP22411
 
 # Exclude from processing.
 # The following items will not be processed, by default.
