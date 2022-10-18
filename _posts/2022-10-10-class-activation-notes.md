@@ -1,6 +1,13 @@
 ---
 layout: post
 title:  "Class Activation Learning"
+keywords:
+  - deep learning
+  - machine learning
+  - class activation
+  - SGD optimizer
+  - tensorflow 2
+  - get_weights
 ---
 This is my implemetation of the Class Activation example from Lazy Programmer's Deep Learning: Advanced Computer Vision Udemy course. You can find the Jupyter notebook on Github at [https://github.com/jpmasters/jupyter-notebooks/blob/main/class-activation-notes.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/class-activation-notes.ipynb)
 

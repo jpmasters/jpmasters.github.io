@@ -1,6 +1,13 @@
 ---
 layout: post
 title:  "Linear Regression With Two Trainable Weights"
+keywords:
+  - deep learning
+  - machine learning
+  - weights
+  - SGD optimizer
+  - tensorflow 2
+  - gradienttape
 ---
 If we look at the problem of fitting a line using the line equation $$y = ax + b$$, we need to provide both the gradient $$a$$ and the offset $$b$$. This means we need to train two variables, $$a$$ and $$b$$ where $$a$$ is the gradient and $$b$$ is the bias.
 

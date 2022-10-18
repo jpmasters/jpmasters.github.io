@@ -1,6 +1,11 @@
 ---
 layout: post
 title:  "Gradient Descent From Scratch"
+keywords:
+  - deep learning
+  - machine learning
+  - tensorflow 2
+  - gradient descent
 ---
 The purpose of these experiments is to implement gradient descent from scratch for a simple linear regression for the equation $$y=ax$$. Gradient descent will be used to find the value for $$a$$ but I wanted to write the code without using Tensorflow to make sure I understood the maths. The Jupyter notebook for this can be found at [https://github.com/jpmasters/jupyter-notebooks/blob/main/gradient_descent_learning.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/gradient_descent_learning.ipynb)
 
