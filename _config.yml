@@ -28,6 +28,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   exploring machine learning and I decided to blog my learning as I go.
 baseurl: /
 url: https://jpmasters.github.io
+timezone: Europe/London
 twitter_username: JonPMasters
 github_username:  jpmasters
 linkedin_username: jpmasters
@@ -36,6 +37,7 @@ linkedin_username: jpmasters
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
 
 show_excerpts: true
 
