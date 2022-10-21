@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Linear Regression With Two Trainable Weights"
-keywords:
+tags:
   - deep learning
   - machine learning
   - weights

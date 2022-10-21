@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Gradient Descent From Scratch"
-keywords:
+tags:
   - deep learning
   - machine learning
   - tensorflow 2

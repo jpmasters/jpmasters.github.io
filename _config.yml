@@ -23,11 +23,9 @@ title: Jon's Jupyter Notebooks
 description: >- # this means to ignore newlines until "baseurl:"
   I've been writing code since the early 80's when I first encountered
   a ZX81 in a computer lab at school and professionally since leaving
-  university in the mid-90's. Now that I'm an engineering manager, I 
-  don't get to write code at work anymore so I like to keep my hand in 
-  by working on passion projects in my own time. Recently I've been 
-  exploring machine learning and I decided to blog my learning as I go. 
-  This is the result.
+  university in the mid-90's. Now that I'm an engineering manager, I like to keep my hand in 
+  by working on projects in my own time. Recently I've been 
+  exploring machine learning and I decided to blog my learning as I go.
 baseurl: /
 url: https://jpmasters.github.io
 twitter_username: JonPMasters
@@ -38,6 +36,8 @@ linkedin_username: jpmasters
 theme: minima
 plugins:
   - jekyll-feed
+
+show_excerpts: true
 
 # favicon
 site_favicon: favicon.ico

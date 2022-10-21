@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Class Activation Learning"
-keywords:
+tags:
   - deep learning
   - machine learning
   - class activation

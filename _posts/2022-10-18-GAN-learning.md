@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Generative Adversarial Networks (GAN) Learning"
-keywords:
+tags:
   - deep learning
   - machine learning
   - tensorflow 2
@@ -10,7 +10,7 @@ keywords:
 ---
 This is my implementation of the GAN lecture code from Lazy Programmer's Udemy course 'Deep Learning: Advanced Computer Vision'.
 
-In it we learn how to build a GAN by combining two Tensorflow models built from dense layers, one set up as a generator of images replicating the MNIST dataset, and the other set up as a discriminator which is used to train the generator by detecting rreal vs 'fake' images.
+In it we learn how to build a GAN by combining two Tensorflow models built from dense layers, one set up as a generator of images replicating the MNIST dataset, and the other set up as a discriminator which is used to train the generator by detecting real vs 'fake' images.
 
 The Python notebook can be found on my Github at [https://github.com/jpmasters/jupyter-notebooks/blob/main/GAN-learning.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/GAN-learning.ipynb)
 
