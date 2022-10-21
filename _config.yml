@@ -39,6 +39,9 @@ theme: minima
 plugins:
   - jekyll-feed
 
+# favicon
+site_favicon: favicon.ico
+
 # analytics
 google_analytics: G-GPFSP22411
 
