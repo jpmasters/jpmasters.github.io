@@ -15,6 +15,8 @@ Using a topless, pre-trained VGG16 network as a feature extractor we build a sma
 
 As directed by the tutorial, I apply the sigmoid activation function to all four of the outputs.
 
+Code for this article can be found at [https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb)
+
 
 ```python
 import tensorflow as tf
