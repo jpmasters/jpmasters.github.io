@@ -11,6 +11,7 @@ tags:
   - vgg16
 ---
 
+
 This is my implementation of the Localization part 1 lectures from Lazy Programmer's Deep Learning and Advanced Computer Vision course. The objective is to start by creating black and white images where there is a black background and a single randomly placed, random sized white rectangle. We then train a network to output the location of the rectangle.
 
 Using a topless, pre-trained VGG16 network as a feature extractor we build a small dense layer with four outputs. The outputs represent the column, row, width and height of the white rectangle.
@@ -30,6 +31,13 @@ from PIL import Image, ImageDraw
 
 Create the model by starting with a trained, topless VGG16, flattening the outputs as they'll be 2D tensors, and the final dense layer with four outputs and sigmoid activation.
 
+VGG16 inputs are usually images of shape 224x224 pixels but to make things a bit faster, we're going to use images of 100x100 pixels.
+
+
+```python
+IMAGE_DIM = 100
+```
+
 We want to make sure we don't try and train the Conv2D layers as it'll take too long so that part of the model is marked as untrainable.
 
 It's then compiled with binary crossentropy as the loss function and the Adam optimizer.
@@ -38,7 +46,7 @@ It's then compiled with binary crossentropy as the loss function and the Adam op
 ```python
 # create the model
 vgg16 = tf.keras.applications.vgg16.VGG16(
-    input_shape=(224, 224, 3), 
+    input_shape=(IMAGE_DIM, IMAGE_DIM, 3), 
     include_top=False, 
     weights='imagenet'
 )
@@ -54,58 +62,57 @@ x = tf.keras.layers.Dense(4, activation="sigmoid")(x)
 model = tf.keras.Model(vgg16.input, x, name="Localization_Model")
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 model.summary()
-
 ```
 
     Model: "Localization_Model"
     _________________________________________________________________
      Layer (type)                Output Shape              Param #   
     =================================================================
-     input_3 (InputLayer)        [(None, 224, 224, 3)]     0         
+     input_6 (InputLayer)        [(None, 100, 100, 3)]     0         
                                                                      
-     block1_conv1 (Conv2D)       (None, 224, 224, 64)      1792      
+     block1_conv1 (Conv2D)       (None, 100, 100, 64)      1792      
                                                                      
-     block1_conv2 (Conv2D)       (None, 224, 224, 64)      36928     
+     block1_conv2 (Conv2D)       (None, 100, 100, 64)      36928     
                                                                      
-     block1_pool (MaxPooling2D)  (None, 112, 112, 64)      0         
+     block1_pool (MaxPooling2D)  (None, 50, 50, 64)        0         
                                                                      
-     block2_conv1 (Conv2D)       (None, 112, 112, 128)     73856     
+     block2_conv1 (Conv2D)       (None, 50, 50, 128)       73856     
                                                                      
-     block2_conv2 (Conv2D)       (None, 112, 112, 128)     147584    
+     block2_conv2 (Conv2D)       (None, 50, 50, 128)       147584    
                                                                      
-     block2_pool (MaxPooling2D)  (None, 56, 56, 128)       0         
+     block2_pool (MaxPooling2D)  (None, 25, 25, 128)       0         
                                                                      
-     block3_conv1 (Conv2D)       (None, 56, 56, 256)       295168    
+     block3_conv1 (Conv2D)       (None, 25, 25, 256)       295168    
                                                                      
-     block3_conv2 (Conv2D)       (None, 56, 56, 256)       590080    
+     block3_conv2 (Conv2D)       (None, 25, 25, 256)       590080    
                                                                      
-     block3_conv3 (Conv2D)       (None, 56, 56, 256)       590080    
+     block3_conv3 (Conv2D)       (None, 25, 25, 256)       590080    
                                                                      
-     block3_pool (MaxPooling2D)  (None, 28, 28, 256)       0         
+     block3_pool (MaxPooling2D)  (None, 12, 12, 256)       0         
                                                                      
-     block4_conv1 (Conv2D)       (None, 28, 28, 512)       1180160   
+     block4_conv1 (Conv2D)       (None, 12, 12, 512)       1180160   
                                                                      
-     block4_conv2 (Conv2D)       (None, 28, 28, 512)       2359808   
+     block4_conv2 (Conv2D)       (None, 12, 12, 512)       2359808   
                                                                      
-     block4_conv3 (Conv2D)       (None, 28, 28, 512)       2359808   
+     block4_conv3 (Conv2D)       (None, 12, 12, 512)       2359808   
                                                                      
-     block4_pool (MaxPooling2D)  (None, 14, 14, 512)       0         
+     block4_pool (MaxPooling2D)  (None, 6, 6, 512)         0         
                                                                      
-     block5_conv1 (Conv2D)       (None, 14, 14, 512)       2359808   
+     block5_conv1 (Conv2D)       (None, 6, 6, 512)         2359808   
                                                                      
-     block5_conv2 (Conv2D)       (None, 14, 14, 512)       2359808   
+     block5_conv2 (Conv2D)       (None, 6, 6, 512)         2359808   
                                                                      
-     block5_conv3 (Conv2D)       (None, 14, 14, 512)       2359808   
+     block5_conv3 (Conv2D)       (None, 6, 6, 512)         2359808   
                                                                      
-     block5_pool (MaxPooling2D)  (None, 7, 7, 512)         0         
+     block5_pool (MaxPooling2D)  (None, 3, 3, 512)         0         
                                                                      
-     flatten_2 (Flatten)         (None, 25088)             0         
+     flatten_5 (Flatten)         (None, 4608)              0         
                                                                      
-     dense_2 (Dense)             (None, 4)                 100356    
+     dense_5 (Dense)             (None, 4)                 18436     
                                                                      
     =================================================================
-    Total params: 14,815,044
-    Trainable params: 100,356
+    Total params: 14,733,124
+    Trainable params: 18,436
     Non-trainable params: 14,714,688
     _________________________________________________________________
 
@@ -114,25 +121,19 @@ You can see from the summary above that nearly all of the weights are untrainabl
 
 Next we create a generator for the training images. It works by creating them at random on the fly. For this I created class derived from [tf.keras.utils.Sequence](https://www.tensorflow.org/api_docs/python/tf/keras/utils/Sequence).
 
-Note that while the sigmoid function is good with values of x from -5 to 5 (and probably beyond), I got better results by limiting the range to -1 to 1. This might mean it'll work better with a different activation function (e.g. identity or leaky ReLU) but I didn't try that this time.
+Note that while the sigmoid function is good with values of x from -5 to 5 (and probably beyond). In this case we'll use the range 0..1.
 
 
 ```python
 class LocalizationSequence(tf.keras.utils.Sequence):
     def __init__(self, batch_size):
         self.batch_size = batch_size
-        self.size_rows = 224
-        self.size_cols = 224
-        
         
     def preprocess_y_value(self, y):
         """
-        Sets the range of y to -1..1 and applies the sigmoid function
-        so it matches the output of the model.
+        Sets the range of y to 0..1.
         """
-        rv = (y / (224 / 2))
-        rv = rv - 1
-        return tf.math.sigmoid(rv)
+        return y / IMAGE_DIM
         
         
     def generate_image(self):
@@ -140,10 +141,11 @@ class LocalizationSequence(tf.keras.utils.Sequence):
         Generates a random image with a black background and a single white
         rectangle inside it. 
         """
-        img = np.zeros((self.size_rows, self.size_cols, 3))
-        block_top, block_left = random.randint(1, 224 - 2), random.randint(1, 224 - 2)
-        block_width = random.randint(1, 224 - 1 - block_left)
-        block_height = random.randint(1, 224 - 1 - block_top)
+        img = np.zeros((IMAGE_DIM, IMAGE_DIM, 3))
+        block_top = random.randint(1, IMAGE_DIM - 2)
+        block_left = random.randint(1, IMAGE_DIM - 2)
+        block_width = random.randint(1, IMAGE_DIM - 1 - block_left)
+        block_height = random.randint(1, IMAGE_DIM - 1 - block_top)
         
         for row in range(block_top, block_top + block_height):
             for col in range(block_left, block_left + block_width):
@@ -166,7 +168,11 @@ class LocalizationSequence(tf.keras.utils.Sequence):
         Return a batch of images preprepared for training. I.e. colour ranges
         are 0..1 and not 0..255.
         """
-        batch_x = np.empty([self.batch_size, 224, 224, 3], dtype=np.float32)
+        batch_x = np.empty(
+            [self.batch_size, IMAGE_DIM, IMAGE_DIM, 3], 
+            dtype=np.float32
+        )
+        
         batch_y = np.empty([self.batch_size, 4], dtype=np.float32)
         
         for i in range(self.batch_size):
@@ -198,7 +204,6 @@ plt.show()
 ```
 
 
-    
 ![Sample output from the generator](/assets/localization-1-1.png)
     
 
@@ -207,29 +212,25 @@ Next we train the model using the LocalizationSequence object.
 
 
 ```python
-history = model.fit(seq, epochs=10)
+history = model.fit(seq, epochs=8)
 ```
 
-    Epoch 1/10
-    32/32 [==============================] - 174s 5s/step - loss: 0.7119 - accuracy: 0.5967
-    Epoch 2/10
-    32/32 [==============================] - 184s 6s/step - loss: 0.6551 - accuracy: 0.8496
-    Epoch 3/10
-    32/32 [==============================] - 195s 6s/step - loss: 0.6513 - accuracy: 0.9033
-    Epoch 4/10
-    32/32 [==============================] - 206s 6s/step - loss: 0.6499 - accuracy: 0.9395
-    Epoch 5/10
-    32/32 [==============================] - 204s 6s/step - loss: 0.6496 - accuracy: 0.9199
-    Epoch 6/10
-    32/32 [==============================] - 190s 6s/step - loss: 0.6508 - accuracy: 0.9434
-    Epoch 7/10
-    32/32 [==============================] - 191s 6s/step - loss: 0.6504 - accuracy: 0.9521
-    Epoch 8/10
-    32/32 [==============================] - 193s 6s/step - loss: 0.6505 - accuracy: 0.9336
-    Epoch 9/10
-    32/32 [==============================] - 195s 6s/step - loss: 0.6499 - accuracy: 0.9336
-    Epoch 10/10
-    32/32 [==============================] - 196s 6s/step - loss: 0.6490 - accuracy: 0.9346
+    Epoch 1/8
+    32/32 [==============================] - 35s 1s/step - loss: 0.5730 - accuracy: 0.6699
+    Epoch 2/8
+    32/32 [==============================] - 36s 1s/step - loss: 0.5057 - accuracy: 0.8906
+    Epoch 3/8
+    32/32 [==============================] - 37s 1s/step - loss: 0.4984 - accuracy: 0.9082
+    Epoch 4/8
+    32/32 [==============================] - 37s 1s/step - loss: 0.4916 - accuracy: 0.9160
+    Epoch 5/8
+    32/32 [==============================] - 37s 1s/step - loss: 0.4889 - accuracy: 0.9414
+    Epoch 6/8
+    32/32 [==============================] - 39s 1s/step - loss: 0.4881 - accuracy: 0.9209
+    Epoch 7/8
+    32/32 [==============================] - 41s 1s/step - loss: 0.4873 - accuracy: 0.9297
+    Epoch 8/8
+    32/32 [==============================] - 42s 1s/step - loss: 0.4876 - accuracy: 0.9473
 
 
 Plot the accuracy from the `model.fit()`.
@@ -255,22 +256,13 @@ Training can take some time so save out the model so it can be loaded from disk 
 model.save('saved-models/localization-1.h5', overwrite=True)
 ```
 
-The `reverse_sigmoid()` function reverses the sigmoid activation to a value proportional to the image size.
-
-
-```python
-def reverse_sigmoid(y):
-    return np.log(y / (1 - y))
-```
-
-The `to_pil_rect()` function takes the y outputs from the model, reverses the sigmoid activation and converts the values into the correct coordinates for the input.
+The `to_pil_rect()` function takes the y outputs from the model and converts the values into the correct coordinates for the input.
 
 
 ```python
 def to_pil_rect(y):
-    rv = reverse_sigmoid(y)
-    rv = (rv + 1) * 112
-    rv = np.clip(rv, 1, 223)
+    rv = y * IMAGE_DIM
+    rv = np.clip(rv, 1, IMAGE_DIM)
     [top, left, height, width] = rv
     height += top
     width += left
@@ -287,7 +279,7 @@ x, y = seq.__getitem__(0)
 print(f'Generated data for predictions: {x.shape}')
 ```
 
-    Generated data for predictions: (32, 224, 224, 3)
+    Generated data for predictions: (32, 100, 100, 3)
 
 
 As you can see, we've created a batch of 32 test images.
@@ -300,7 +292,7 @@ x.shape
 
 
 
-    (32, 224, 224, 3)
+    (32, 100, 100, 3)
 
 
 
@@ -311,7 +303,7 @@ Use the trained model to make some predictions from the new batch.
 y_predicted = model.predict(x)
 ```
 
-    1/1 [==============================] - 6s 6s/step
+    1/1 [==============================] - 1s 1s/step
 
 
 Create the boxes for both the actual boxes and the predicted ones.
@@ -331,7 +323,7 @@ Convert the numpy array into a PIL image so we can work with it as an image.
 
 ```python
 def add_bounding_boxes():
-    rv = np.zeros((seq.batch_size, 224, 224, 3), dtype=np.uint8)
+    rv = np.zeros((seq.batch_size, IMAGE_DIM, IMAGE_DIM, 3), dtype=np.uint8)
     for i in range(seq.batch_size):
         im = Image.fromarray(np.uint8(x[i] * 255), mode='RGB')
 
@@ -379,7 +371,3 @@ for i in range(9):
 
 
 In the output above you can see the green boxes that are the results of the predictions and the yellow boxes that use the same maths to reverse the sigmoid function and validate that that maths is correct.
-
-## Further Experiments
-1. I'd like to remove the sigmoid activation function as I'm not sure this is really adding anything. Perhaps try some of the ones found [here](https://en.wikipedia.org/wiki/Activation_function).
-2. Dynamically change the learning rate during `model.fit()` to see if I can get some more accuracy out of the model.
