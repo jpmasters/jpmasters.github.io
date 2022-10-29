@@ -28,7 +28,7 @@ import random
 from PIL import Image, ImageDraw
 ```
 
-I started with the final code from [Localization 1]([https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb)) and then made the necessary modifications from there. One change I did make after having seen LP's implementation in Udemy was to change the size of the images from the VGG16 default of 224 x 224 pixels to a more manageable 100 x 100 pixels
+I started with the final code from [Localization 1]([https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb)) and then made the necessary modifications from there. One change I did make after having seen LP's implementation in Udemy was to change the size of the images from the VGG16 default of 224 x 224 pixels to a more manageable 100 x 100 pixels.
 
 
 ```python
