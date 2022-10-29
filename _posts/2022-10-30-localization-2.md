@@ -28,11 +28,11 @@ import random
 from PIL import Image, ImageDraw
 ```
 
-I started with the final code from [Localization 1]([https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb)) and then made the necessary modifications from there. One change I did make after having seen LP's implementation in Udemy was to change the size of the images from the VGG16 default of 224 x 224 pixels to a more manageable 100 x 100 pixels.
+I started with the final code from [Localization 1]([https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb](https://github.com/jpmasters/jupyter-notebooks/blob/main/localization-1.ipynb)) and then made the necessary modifications from there. One change I did make after having seen LP's implementation in Udemy was to change the size of the images from the VGG16 default of 224 x 224 pixels to a more manageable 100 x 100 pixels
 
 
 ```python
-IMAGE_DIM = 100
+IMAGE_DIM = 200
 ```
 
 To recap, I created the model by starting with a trained, topless VGG16, flattening the outputs as they'll be 2D tensors, and the final dense layer with four outputs and sigmoid activation.
@@ -67,51 +67,51 @@ model.summary()
     _________________________________________________________________
      Layer (type)                Output Shape              Param #   
     =================================================================
-     input_7 (InputLayer)        [(None, 100, 100, 3)]     0         
+     input_12 (InputLayer)       [(None, 200, 200, 3)]     0         
                                                                      
-     block1_conv1 (Conv2D)       (None, 100, 100, 64)      1792      
+     block1_conv1 (Conv2D)       (None, 200, 200, 64)      1792      
                                                                      
-     block1_conv2 (Conv2D)       (None, 100, 100, 64)      36928     
+     block1_conv2 (Conv2D)       (None, 200, 200, 64)      36928     
                                                                      
-     block1_pool (MaxPooling2D)  (None, 50, 50, 64)        0         
+     block1_pool (MaxPooling2D)  (None, 100, 100, 64)      0         
                                                                      
-     block2_conv1 (Conv2D)       (None, 50, 50, 128)       73856     
+     block2_conv1 (Conv2D)       (None, 100, 100, 128)     73856     
                                                                      
-     block2_conv2 (Conv2D)       (None, 50, 50, 128)       147584    
+     block2_conv2 (Conv2D)       (None, 100, 100, 128)     147584    
                                                                      
-     block2_pool (MaxPooling2D)  (None, 25, 25, 128)       0         
+     block2_pool (MaxPooling2D)  (None, 50, 50, 128)       0         
                                                                      
-     block3_conv1 (Conv2D)       (None, 25, 25, 256)       295168    
+     block3_conv1 (Conv2D)       (None, 50, 50, 256)       295168    
                                                                      
-     block3_conv2 (Conv2D)       (None, 25, 25, 256)       590080    
+     block3_conv2 (Conv2D)       (None, 50, 50, 256)       590080    
                                                                      
-     block3_conv3 (Conv2D)       (None, 25, 25, 256)       590080    
+     block3_conv3 (Conv2D)       (None, 50, 50, 256)       590080    
                                                                      
-     block3_pool (MaxPooling2D)  (None, 12, 12, 256)       0         
+     block3_pool (MaxPooling2D)  (None, 25, 25, 256)       0         
                                                                      
-     block4_conv1 (Conv2D)       (None, 12, 12, 512)       1180160   
+     block4_conv1 (Conv2D)       (None, 25, 25, 512)       1180160   
                                                                      
-     block4_conv2 (Conv2D)       (None, 12, 12, 512)       2359808   
+     block4_conv2 (Conv2D)       (None, 25, 25, 512)       2359808   
                                                                      
-     block4_conv3 (Conv2D)       (None, 12, 12, 512)       2359808   
+     block4_conv3 (Conv2D)       (None, 25, 25, 512)       2359808   
                                                                      
-     block4_pool (MaxPooling2D)  (None, 6, 6, 512)         0         
+     block4_pool (MaxPooling2D)  (None, 12, 12, 512)       0         
                                                                      
-     block5_conv1 (Conv2D)       (None, 6, 6, 512)         2359808   
+     block5_conv1 (Conv2D)       (None, 12, 12, 512)       2359808   
                                                                      
-     block5_conv2 (Conv2D)       (None, 6, 6, 512)         2359808   
+     block5_conv2 (Conv2D)       (None, 12, 12, 512)       2359808   
                                                                      
-     block5_conv3 (Conv2D)       (None, 6, 6, 512)         2359808   
+     block5_conv3 (Conv2D)       (None, 12, 12, 512)       2359808   
                                                                      
-     block5_pool (MaxPooling2D)  (None, 3, 3, 512)         0         
+     block5_pool (MaxPooling2D)  (None, 6, 6, 512)         0         
                                                                      
-     flatten_6 (Flatten)         (None, 4608)              0         
+     flatten_11 (Flatten)        (None, 18432)             0         
                                                                      
-     dense_6 (Dense)             (None, 4)                 18436     
+     dense_11 (Dense)            (None, 4)                 73732     
                                                                      
     =================================================================
-    Total params: 14,733,124
-    Trainable params: 18,436
+    Total params: 14,788,420
+    Trainable params: 73,732
     Non-trainable params: 14,714,688
     _________________________________________________________________
 
@@ -136,8 +136,7 @@ class LocalizationSequence(tf.keras.utils.Sequence):
         Sets the range of y to 0..1 and applies the sigmoid function
         so it matches the output of the model.
         """
-        rv = (y / IMAGE_DIM)
-        return tf.math.sigmoid(rv)
+        return y / IMAGE_DIM
         
         
     def generate_image(self):
@@ -205,7 +204,7 @@ plt.show()
 
 
     
-![Sample output from Sequence](/assets/localization-2-1.png)
+![Output from the LocalizationSequence class](/assets/localization-2-1.png)
     
 
 
@@ -213,29 +212,19 @@ Next we train the model using the LocalizationSequence object.
 
 
 ```python
-history = model.fit(seq, epochs=10)
+history = model.fit(seq, epochs=5)
 ```
 
-    Epoch 1/10
-    32/32 [==============================] - 34s 1s/step - loss: 0.6796 - accuracy: 0.6367
-    Epoch 2/10
-    32/32 [==============================] - 34s 1s/step - loss: 0.6722 - accuracy: 0.8906
-    Epoch 3/10
-    32/32 [==============================] - 35s 1s/step - loss: 0.6720 - accuracy: 0.9629
-    Epoch 4/10
-    32/32 [==============================] - 36s 1s/step - loss: 0.6716 - accuracy: 0.9756
-    Epoch 5/10
-    32/32 [==============================] - 36s 1s/step - loss: 0.6717 - accuracy: 0.9834
-    Epoch 6/10
-    32/32 [==============================] - 36s 1s/step - loss: 0.6715 - accuracy: 0.9912
-    Epoch 7/10
-    32/32 [==============================] - 37s 1s/step - loss: 0.6715 - accuracy: 0.9854
-    Epoch 8/10
-    32/32 [==============================] - 36s 1s/step - loss: 0.6718 - accuracy: 0.9941
-    Epoch 9/10
-    32/32 [==============================] - 37s 1s/step - loss: 0.6717 - accuracy: 0.9961
-    Epoch 10/10
-    32/32 [==============================] - 37s 1s/step - loss: 0.6717 - accuracy: 0.9932
+    Epoch 1/5
+    32/32 [==============================] - 175s 6s/step - loss: 0.5997 - accuracy: 0.7266
+    Epoch 2/5
+    32/32 [==============================] - 170s 5s/step - loss: 0.5614 - accuracy: 0.9248
+    Epoch 3/5
+    32/32 [==============================] - 170s 5s/step - loss: 0.5595 - accuracy: 0.9697
+    Epoch 4/5
+    32/32 [==============================] - 178s 6s/step - loss: 0.5577 - accuracy: 0.9697
+    Epoch 5/5
+    32/32 [==============================] - 170s 5s/step - loss: 0.5651 - accuracy: 0.9844
 
 
 Plot the accuracy from the `model.fit()`.
@@ -250,7 +239,7 @@ plt.show()
 
 
     
-![Traning accuracy graph](/assets/localization-2-2.png)
+![Accuracy graph from model.fit](/assets/localization-2-2.png)
     
 
 
@@ -261,23 +250,12 @@ Training can take some time so save out the model so it can be loaded from disk 
 model.save('saved-models/localization-2.h5', overwrite=True)
 ```
 
-The `reverse_sigmoid()` function reverses the sigmoid activation to a value proportional to the image size using the equation:
-
-$$\hat{y} = \ln \left[ {y\over{(1 - y)}} \right]$$
-
-
-```python
-def reverse_sigmoid(y):
-    return np.log(y / (1 - y))
-```
-
-The `to_pil_rect()` function takes the y outputs from the model, reverses the sigmoid activation and converts the values into the correct coordinates for the input.
+The `to_pil_rect()` function takes the y outputs from the model and converts the values into the correct coordinates for the input.
 
 
 ```python
 def to_pil_rect(y):
-    rv = reverse_sigmoid(y)
-    rv = rv * IMAGE_DIM
+    rv = y * IMAGE_DIM
     rv = np.clip(rv, 1, IMAGE_DIM - 1)
     [top, left, height, width] = rv
     height += top
@@ -295,7 +273,7 @@ x, y = seq.__getitem__(0)
 print(f'Generated data for predictions: {x.shape}')
 ```
 
-    Generated data for predictions: (32, 100, 100, 3)
+    Generated data for predictions: (32, 200, 200, 3)
 
 
 Use the trained model to make some predictions from the new batch.
@@ -305,7 +283,7 @@ Use the trained model to make some predictions from the new batch.
 y_predicted = model.predict(x)
 ```
 
-    1/1 [==============================] - 1s 1s/step
+    1/1 [==============================] - 4s 4s/step
 
 
 Create the boxes for both the actual boxes and the predicted ones.
@@ -368,10 +346,8 @@ for i in range(9):
 
 
     
-![Final output](/assets/localization-2-3.png)
+![Final output predicted vs actual boxes](/assets/localization-2-3.png)
     
 
 
 In the output above you can see the green boxes that are the results of the predictions and the yellow boxes that use the same maths to reverse the sigmoid function and validate that that maths is correct.
-
-
