@@ -133,8 +133,7 @@ class LocalizationSequence(tf.keras.utils.Sequence):
         
     def preprocess_y_value(self, y):
         """
-        Sets the range of y to 0..1 and applies the sigmoid function
-        so it matches the output of the model.
+        Sets the range of y to 0..1.
         """
         return y / IMAGE_DIM
         
