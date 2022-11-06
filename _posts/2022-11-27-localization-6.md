@@ -237,7 +237,7 @@ plt.show()
 
 
 
-Now that we have one output representing the detection of a Pokemon and the others representing the location and size of a Pokenon if it is detected, we need a custom loss function. We need to only train for the location and size of a Pokemon if a Pokemon is detected. If no Pokemon is in the image, we don't care what the values of the position and size outputs are. 
+Now that we have one output representing the detection of a Pokemon and the others representing the location and size of a Pokemon if it is detected, we need a custom loss function. We need to only train for the location and size of a Pokemon if a Pokemon is detected. If no Pokemon is in the image, we don't care what the values of the position and size outputs are. 
 
 As in Lazy Programmer's lecture, we also want to weight the relative importance of detecting a Pokemon vs locating it in the image. The custom loss function can therefore be given as:
 
