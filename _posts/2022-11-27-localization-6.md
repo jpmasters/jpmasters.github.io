@@ -245,10 +245,10 @@ $$ loss = W_{1}L_{bce}(Y_{[0..3]}, \hat{Y}_{[0..3]})Y_{[4]} + W_{2}L_{bce}(Y_{[4
 
 Where:
 
-&emsp;$W_{1}$ and $W_{2}$ are the weightings for the location and detect losses  
-&emsp;$L_{bce}$ represets the binary crossentropy loss function  
-&emsp;$Y_{[0..3]}$ and $\hat{Y}_{[0..3]}$ represent the actual and predicted location outputs  
-&emsp;$Y_{[4]}$ and $\hat{Y}_{[4]}$ represent the actual and predicted detect outputs  
+&emsp;$$W_{1}$$ and $$W_{2}$$ are the weightings for the location and detect losses  
+&emsp;$$L_{bce}$$ represets the binary crossentropy loss function  
+&emsp;$$Y_{[0..3]}$$ and $$\hat{Y}_{[0..3]}$$ represent the actual and predicted location outputs  
+&emsp;$$Y_{[4]}$$ and $$\hat{Y}_{[4]}$$ represent the actual and predicted detect outputs  
 
 The way this works is that the weighted location and size outputs are multiplied by the detect outputs which are 1 if a Pokemon is present and 0 if not. Therefore the location and size are only included in the loss calculation when a Pokemon is in the scene.
 
