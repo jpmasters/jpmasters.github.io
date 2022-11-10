@@ -10,7 +10,6 @@ layout: default
       <a href="{{ post.url }}">{{ post.title }}</a>
       <br><i>{{ post.date | date: "%B %e, %Y" }}</i>
       {{ post.excerpt }}
-       
     </li>
   {% endfor %}
 </ul>

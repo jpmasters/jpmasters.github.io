@@ -26,6 +26,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   university in the mid-90's. Now that I'm an engineering manager, I like to keep my hand in 
   by working on projects in my own time. Recently I've been 
   exploring machine learning and I decided to blog my learning as I go.
+logo: /assets/jon-portrait.jpeg
 baseurl: /
 url: https://jpmasters.github.io
 timezone: Europe/London
